@@ -62,11 +62,27 @@ mostrarPlatosMasVendidos(List<Order>): recorre todos los pedidos y cuenta cuánt
 
 Todos los reportes operan sobre estructuras en memoria (List<Order>) sin requerir persistencia externa, cumpliendo así con los requisitos técnicos del taller. La solución está alineada con el principio SRP (Single Responsibility) y se integra de forma natural a la arquitectura por capas propuesta.
 ## 7. Interfaz de Consola  
-Responsable: Andrés
+Se implementó la interfaz de usuario del sistema a través de la clase RestaurantConsoleApp, ubicada en la capa de presentación. Esta clase permite la interacción por consola con el usuario, cumpliendo con los requisitos definidos en el taller.
 
-Interfaz textual de interacción con el usuario, menús de navegación y opciones de sistema.
+El menú principal está estructurado en opciones numeradas, y permite al usuario realizar las siguientes acciones:
 
-Documentación pendiente
+Ver el menú del restaurante.
+
+Crear un nuevo pedido con ítems seleccionados.
+
+Visualizar todos los pedidos realizados.
+
+Avanzar el estado de un pedido mediante el patrón State.
+
+Ver el total acumulado de ventas.
+
+Ver los platos más vendidos.
+
+Salir del sistema.
+
+Cada opción invoca directamente a los servicios y entidades correspondientes, respetando la arquitectura por capas. La entrada de datos se realiza mediante Scanner, y todas las interacciones están diseñadas para ser claras, robustas y acordes al flujo esperado de uso.
+
+La implementación es modular, extensible y puede ampliarse para integrar funcionalidades como notificaciones (Observer) o personalización de ítems (Decorator), conforme se completen otras tareas del sistema.
 
 ## 8. Documentación del entregable  
 Responsable: Andrés y Sebastián
