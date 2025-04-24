@@ -16,8 +16,6 @@ Descripción, organización de paquetes y estructura general del proyecto.
 Documentación pendiente
 
 ## 2. Gestión del Menú (Factory Method)  
-Responsable: Andrés
-
 Se implementó la gestión del menú utilizando el patrón de diseño Factory Method, tal como se presenta en el ejemplo del sistema de biblioteca del recurso “Guía Paso a Paso: Creación de un Sistema de Gestión de Biblioteca en Java”.
 
 Se creó la interfaz MenuItem para representar cualquier ítem del menú (plato, bebida o postre), y clases concretas PlatoPrincipal, Bebida y Postre que implementan dicha interfaz.
@@ -36,11 +34,13 @@ Creación de pedidos, asignación de ítems, aplicación de extras mediante el p
 Documentación pendiente
 
 ## 4. Seguimiento del Estado del Pedido (State)  
-Responsable: Andrés
+Se implementó el seguimiento del estado de los pedidos utilizando el patrón de diseño State, tal como lo propone el documento "Taller: Diseño y Arquitectura de Software". El objetivo fue modelar el ciclo de vida de un pedido como una máquina de estados, permitiendo encapsular la lógica de transición y comportamiento en clases individuales.
 
-Manejo del ciclo de vida del pedido (Recibido, En Preparación, Listo, Entregado) aplicando el patrón State.
+Se creó la interfaz OrderState en el paquete domain.state, junto con cuatro clases concretas que representan los estados del pedido: ReceivedState, PreparingState, ReadyState y DeliveredState. Cada clase define su propia transición al siguiente estado.
 
-Documentación pendiente
+La clase Order fue modificada para incluir un atributo OrderState, inicializado como ReceivedState en el constructor. Se añadieron los métodos avanzarEstado() y getNombreEstado() para permitir el cambio de estado de forma controlada y consultar el estado actual.
+
+La solución está alineada con el principio O de SOLID (Open/Closed), ya que permite extender los estados sin modificar la lógica de la clase Order, y es coherente con la arquitectura por capas definida en el taller.
 
 ## 5. Notificaciones al cambiar el estado (Observer)  
 Responsable: Sebastián
