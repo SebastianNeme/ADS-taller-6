@@ -50,12 +50,17 @@ Notificación a clientes, cocina o mesero cuando un pedido cambia de estado, usa
 Documentación pendiente
 
 ## 6. Reportes Básicos  
-Responsable: Andrés
+Se implementó la funcionalidad de reportes básicos del sistema a través de la clase ReportService, ubicada en la capa de aplicación. Esta clase permite visualizar información consolidada de los pedidos realizados, de acuerdo con lo solicitado en el taller.
 
-Generación de reportes simples como lista de pedidos y estadísticas básicas del menú.
+Se desarrollaron tres métodos principales:
 
-Documentación pendiente
+mostrarPedidos(List<Order>): imprime el resumen de cada pedido con sus ítems, total y estado.
 
+mostrarTotalVentas(List<Order>): calcula y muestra la suma total de ventas acumuladas.
+
+mostrarPlatosMasVendidos(List<Order>): recorre todos los pedidos y cuenta cuántas veces se pidió cada ítem, mostrando el resultado ordenado por popularidad.
+
+Todos los reportes operan sobre estructuras en memoria (List<Order>) sin requerir persistencia externa, cumpliendo así con los requisitos técnicos del taller. La solución está alineada con el principio SRP (Single Responsibility) y se integra de forma natural a la arquitectura por capas propuesta.
 ## 7. Interfaz de Consola  
 Responsable: Andrés
 
