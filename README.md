@@ -1,114 +1,125 @@
 # Sistema de Gestión de Pedidos de Restaurante
 
-Este proyecto corresponde al desarrollo del taller de Diseño y Arquitectura de Software de la Pontificia Universidad Javeriana. El sistema implementa una arquitectura por capas y aplica tres patrones de diseño: Factory Method, Decorator y Observer.
+**Pontificia Universidad Javeriana**  
+**Materia:** Análisis y Diseño de Software (ADS)  
+**Taller Final – Patrones de Diseño**  
+**Autores:** Andrés y Sebastián  
 
-El objetivo es construir un sistema modular, extensible y de bajo acoplamiento, siguiendo principios SOLID y una estructura de software bien definida.
+---
 
-## Estructura del documento
+## Descripción General
 
-A continuación se describe cada una de las tareas principales del sistema, el responsable de su implementación y un espacio para su documentación correspondiente.
+Este proyecto implementa un sistema modular para la gestión de pedidos en un restaurante. La solución está construida siguiendo una arquitectura en capas, principios SOLID y la aplicación de patrones de diseño orientados a objetos.  
 
-## 1. Estructura base del proyecto  
-Responsable: Sebastián
+El sistema busca facilitar la creación, seguimiento y administración de pedidos, permitiendo personalización de ítems y comunicación entre las distintas áreas del restaurante de forma reactiva.
 
-Descripción, organización de paquetes y estructura general del proyecto.
+### Patrones de Diseño Aplicados
 
-Documentación pendiente
+- **Factory Method (Creacional):** Permite encapsular la creación de distintos tipos de ítems del menú.  
+- **Decorator (Estructural):** Facilita la extensión dinámica del comportamiento de los ítems del menú.  
+- **Observer (Comportamiento):** Implementa notificaciones automáticas al cambiar el estado de un pedido.  
+- **State (Comportamiento):** Modela el ciclo de vida de un pedido, encapsulando su comportamiento en cada estado.
 
-## 2. Gestión del Menú (Factory Method)  
-Se implementó la gestión del menú utilizando el patrón de diseño Factory Method, tal como se presenta en el ejemplo del sistema de biblioteca del recurso “Guía Paso a Paso: Creación de un Sistema de Gestión de Biblioteca en Java”.
+---
 
-Se creó la interfaz MenuItem para representar cualquier ítem del menú (plato, bebida o postre), y clases concretas PlatoPrincipal, Bebida y Postre que implementan dicha interfaz.
+## Arquitectura del Proyecto
 
-El patrón Factory Method se aplicó mediante la interfaz MenuItemFactory y sus implementaciones PlatoFactory, BebidaFactory y PostreFactory. Cada fábrica permite crear una instancia de un ítem sin depender directamente de la clase concreta, manteniendo el sistema abierto a extensión y cerrado a modificación (principio O de SOLID).
+El sistema está dividido en los siguientes paquetes o capas:
 
-Los ítems creados se administran a través de la clase MenuService, ubicada en la capa de aplicación. Esta clase permite agregar ítems al menú y listarlos. La funcionalidad fue conectada desde la clase RestaurantConsoleApp, que inicializa un conjunto básico de ítems mediante sus respectivas fábricas y muestra el menú por consola.
+- **domain.model**  
+  Contiene las entidades del negocio: `Order`, `Customer`, `MenuItem`, `PlatoPrincipal`, `Bebida`, `Postre`.
 
-La solución respeta la arquitectura por capas y es coherente con el diseño propuesto en el documento “Taller: Diseño y Arquitectura de Software”.
+- **domain.state**  
+  Implementa el patrón State para el control de estados del pedido: `ReceivedState`, `PreparingState`, `ReadyState`, `DeliveredState`.
 
-## 3. Creación y Gestión de Pedidos (Decorator)  
-Responsable: Sebastián
+- **domain.decorator**  
+  Incluye decoradores como `ExtraQueso` y `EmpaqueParaLlevar`, que modifican dinámicamente el comportamiento de los objetos `MenuItem`.
 
-Creación de pedidos, asignación de ítems, aplicación de extras mediante el patrón Decorator.
+- **domain.observer**  
+  Define observadores (`CustomerObserver`, `KitchenObserver`) y el sujeto `OrderNotifier` para gestionar los eventos de cambio de estado.
 
-Documentación pendiente
+- **domain.factory**  
+  Contiene las fábricas concretas (`PlatoFactory`, `BebidaFactory`, `PostreFactory`) que aplican el patrón Factory Method.
 
-## 4. Seguimiento del Estado del Pedido (State)  
-Se implementó el seguimiento del estado de los pedidos utilizando el patrón de diseño State, tal como lo propone el documento "Taller: Diseño y Arquitectura de Software". El objetivo fue modelar el ciclo de vida de un pedido como una máquina de estados, permitiendo encapsular la lógica de transición y comportamiento en clases individuales.
+- **application**  
+  Incluye los casos de uso que coordinan la lógica del negocio: `MenuService`, `OrderService`, `ReportService`.
 
-Se creó la interfaz OrderState en el paquete domain.state, junto con cuatro clases concretas que representan los estados del pedido: ReceivedState, PreparingState, ReadyState y DeliveredState. Cada clase define su propia transición al siguiente estado.
+- **infrastructure**  
+  Implementa la persistencia simulada mediante repositorios en memoria: `InMemoryMenuRepository`, `InMemoryOrderRepository`.
 
-La clase Order fue modificada para incluir un atributo OrderState, inicializado como ReceivedState en el constructor. Se añadieron los métodos avanzarEstado() y getNombreEstado() para permitir el cambio de estado de forma controlada y consultar el estado actual.
+- **ui**  
+  Proporciona una interfaz de consola (`RestaurantConsoleApp`) para la interacción del usuario con el sistema.
 
-La solución está alineada con el principio O de SOLID (Open/Closed), ya que permite extender los estados sin modificar la lógica de la clase Order, y es coherente con la arquitectura por capas definida en el taller.
+---
 
-## 5. Notificaciones al cambiar el estado (Observer)  
-Responsable: Sebastián
+## Funcionalidades Principales
 
-Notificación a clientes, cocina o mesero cuando un pedido cambia de estado, usando el patrón Observer.
+- Visualizar el menú de ítems disponibles.  
+- Registrar clientes.  
+- Crear pedidos personalizados, con decoradores opcionales (como extra queso o empaque para llevar).  
+- Avanzar el estado de un pedido y generar notificaciones.  
+- Consultar todos los pedidos realizados.  
+- Obtener el total acumulado de ventas.  
+- Ver los ítems más vendidos.
 
-Documentación pendiente
+---
 
-## 6. Reportes Básicos  
-Se implementó la funcionalidad de reportes básicos del sistema a través de la clase ReportService, ubicada en la capa de aplicación. Esta clase permite visualizar información consolidada de los pedidos realizados, de acuerdo con lo solicitado en el taller.
+## Ejecución desde Consola
 
-Se desarrollaron tres métodos principales:
+La clase principal `RestaurantConsoleApp` permite ejecutar el sistema desde la línea de comandos. El flujo de trabajo típico es el siguiente:
 
-mostrarPedidos(List<Order>): imprime el resumen de cada pedido con sus ítems, total y estado.
+1. El usuario visualiza el menú.
+2. Selecciona ítems y aplica decoradores según preferencia.
+3. Se crea y registra el pedido con un cliente.
+4. El pedido avanza por los distintos estados y genera notificaciones a cocina y cliente.
+5. El usuario puede consultar reportes relacionados con ventas y popularidad de productos.
 
-mostrarTotalVentas(List<Order>): calcula y muestra la suma total de ventas acumuladas.
+---
 
-mostrarPlatosMasVendidos(List<Order>): recorre todos los pedidos y cuenta cuántas veces se pidió cada ítem, mostrando el resultado ordenado por popularidad.
+## Estructura del Repositorio
 
-Todos los reportes operan sobre estructuras en memoria (List<Order>) sin requerir persistencia externa, cumpliendo así con los requisitos técnicos del taller. La solución está alineada con el principio SRP (Single Responsibility) y se integra de forma natural a la arquitectura por capas propuesta.
-## 7. Interfaz de Consola  
-Se implementó la interfaz de usuario del sistema a través de la clase RestaurantConsoleApp, ubicada en la capa de presentación. Esta clase permite la interacción por consola con el usuario, cumpliendo con los requisitos definidos en el taller.
+src/
+├── application/
+│ ├── MenuService.java
+│ ├── OrderService.java
+│ └── ReportService.java
+├── domain/
+│ ├── model/
+│ │ ├── Order.java
+│ │ ├── MenuItem.java
+│ │ └── ...
+│ ├── state/
+│ ├── decorator/
+│ ├── observer/
+│ └── factory/
+├── infrastructure/
+│ ├── InMemoryMenuRepository.java
+│ └── InMemoryOrderRepository.java
+└── ui/
+└── RestaurantConsoleApp.java
 
-El menú principal está estructurado en opciones numeradas, y permite al usuario realizar las siguientes acciones:
 
-Ver el menú del restaurante.
+---
 
-Crear un nuevo pedido con ítems seleccionados.
+## Principios SOLID Aplicados
 
-Visualizar todos los pedidos realizados.
+- **S (Single Responsibility):** Cada clase tiene una responsabilidad única y clara.  
+- **O (Open/Closed):** El sistema está diseñado para ser extendido sin modificar el código existente.  
+- **L (Liskov Substitution):** Los decoradores y observadores respetan los contratos de sus interfaces.  
+- **I (Interface Segregation):** Interfaces específicas como `MenuItem` y `OrderObserver` están correctamente segregadas.  
+- **D (Dependency Inversion):** La lógica del negocio depende de abstracciones, no de implementaciones concretas.
 
-Avanzar el estado de un pedido mediante el patrón State.
+---
 
-Ver el total acumulado de ventas.
+## Estado Actual
 
-Ver los platos más vendidos.
+- Implementación funcional completa.  
+- Diseño basado en patrones ampliamente adoptados.  
+- Código probado desde la consola.  
+- Documentación técnica incluida en este archivo README.
 
-Salir del sistema.
+---
 
-Cada opción invoca directamente a los servicios y entidades correspondientes, respetando la arquitectura por capas. La entrada de datos se realiza mediante Scanner, y todas las interacciones están diseñadas para ser claras, robustas y acordes al flujo esperado de uso.
+## Conclusión
 
-La implementación es modular, extensible y puede ampliarse para integrar funcionalidades como notificaciones (Observer) o personalización de ítems (Decorator), conforme se completen otras tareas del sistema.
-
-## 8. Documentación del entregable  
-Responsable: Andrés y Sebastián
-
-Justificación de la arquitectura, aplicación de los principios SOLID, descripción de los patrones de diseño utilizados, decisiones de diseño y conclusiones.
-
-Documentación pendiente
-
-## Arquitectura general
-
-- `ui`: Capa de presentación (interfaz por consola)
-- `application`: Capa de aplicación y servicios (casos de uso)
-- `domain`: Capa de dominio (entidades del negocio, lógica central, patrones)
-- `infrastructure`: Capa de infraestructura (persistencia en memoria, notificaciones)
-
-## Patrones de diseño aplicados
-
-- Factory Method: creación de ítems del menú.
-- Decorator: personalización de ítems del pedido con componentes adicionales.
-- Observer: notificaciones automáticas al cambiar el estado de un pedido.
-
-## Principios SOLID
-
-Los principios SOLID se describen con ejemplos específicos en la sección 8 del documento, dentro de la documentación final.
-
-## Estado del proyecto
-
-Este archivo README se encuentra en construcción. Su contenido se actualizará progresivamente a medida que se complete la implementación de cada tarea.
- 
+Este sistema demuestra la aplicación práctica de patrones de diseño clásicos en un dominio concreto. Su estructura modular, extensible y mantenible permite adaptarlo fácilmente a nuevas funcionalidades y casos de uso, promoviendo buenas prácticas en el desarrollo de software orientado a objetos.
