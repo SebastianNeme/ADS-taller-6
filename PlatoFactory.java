@@ -1,20 +1,12 @@
-package com.restaurant.infrastructure.factory;
+package com.restaurant.domain.factory;
 
-import com.restaurant.domain.model.*;
+import com.restaurant.domain.model.MenuItem;
+import com.restaurant.domain.model.PlatoPrincipal;
 
 public class PlatoFactory implements MenuItemFactory {
-    private String nombre;
-    private double precio;
-    private String descripcion;
-
-    public PlatoFactory(String nombre, double precio, String descripcion) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.descripcion = descripcion;
-    }
 
     @Override
-    public MenuItem crearItem() {
-        return new PlatoPrincipal(nombre, precio, descripcion);
+    public MenuItem crear(String nombre, double precio) {
+        return new PlatoPrincipal(nombre, precio);
     }
 }
