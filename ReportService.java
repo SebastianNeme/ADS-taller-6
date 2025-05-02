@@ -3,44 +3,45 @@ package com.restaurant.application;
 import com.restaurant.domain.model.Order;
 import com.restaurant.domain.model.MenuItem;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 public class ReportService {
 
     public void mostrarPedidos(List<Order> pedidos) {
-        System.out.println("=== Reporte de Pedidos Realizados ===");
+        System.out.println("LISTADO DE PEDIDOS:");
         for (Order pedido : pedidos) {
-            pedido.mostrarResumen();
-            System.out.println("-----------------------------");
+            System.out.println("Pedido #" + pedido.getId() + " - Estado: " + pedido.getNombreEstado());
+            for (MenuItem item : pedido.getItems()) {
+                System.out.println("  - " + item.getNombre() + ": $" + item.getPrecio());
+            }
+            double total = pedido.getItems().stream().mapToDouble(MenuItem::getPrecio).sum();
+            System.out.println("  Total: $" + total);
+            System.out.println();
         }
     }
 
     public void mostrarTotalVentas(List<Order> pedidos) {
         double total = 0;
         for (Order pedido : pedidos) {
-            total += pedido.calcularTotal();
+            total += pedido.getItems().stream().mapToDouble(MenuItem::getPrecio).sum();
         }
-        System.out.println("Total de ventas: $" + total);
+        System.out.println("TOTAL DE VENTAS: $" + total);
     }
 
     public void mostrarPlatosMasVendidos(List<Order> pedidos) {
-        Map<String, Integer> conteo = new HashMap<>();
+        Map<String, Integer> contador = new HashMap<>();
 
         for (Order pedido : pedidos) {
             for (MenuItem item : pedido.getItems()) {
-                conteo.put(item.getNombre(), conteo.getOrDefault(item.getNombre(), 0) + 1);
+                contador.put(item.getNombre(), contador.getOrDefault(item.getNombre(), 0) + 1);
             }
         }
 
-        System.out.println("=== Platos más vendidos ===");
-        conteo.entrySet()
-              .stream()
-              .sorted((a, b) -> b.getValue().compareTo(a.getValue()))
-              .forEach(entry ->
-                  System.out.println(entry.getKey() + ": " + entry.getValue() + " unidades")
-              );
+        System.out.println(" PLATOS MAS VENDIDOS:");
+        contador.entrySet().stream()
+                .sorted((a, b) -> b.getValue() - a.getValue())
+                .forEach(e -> System.out.println(e.getKey() + " - " + e.getValue() + " vendidos"));
     }
 }
-
