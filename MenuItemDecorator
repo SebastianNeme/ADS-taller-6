@@ -1,0 +1,21 @@
+package com.restaurant.domain.decorator;
+
+import com.restaurant.domain.model.MenuItem;
+
+public abstract class MenuItemDecorator implements MenuItem {
+    protected MenuItem itemDecorado;
+
+    public MenuItemDecorator(MenuItem item) {
+        this.itemDecorado = item;
+    }
+
+    @Override
+    public String getNombre() {
+        return itemDecorado.getNombre();
+    }
+
+    @Override
+    public double getPrecio() {
+        return itemDecorado.getPrecio();
+    }
+}
