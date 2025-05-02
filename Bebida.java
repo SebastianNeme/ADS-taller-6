@@ -3,12 +3,10 @@ package com.restaurant.domain.model;
 public class Bebida implements MenuItem {
     private String nombre;
     private double precio;
-    private String descripcion;
 
-    public Bebida(String nombre, double precio, String descripcion) {
+    public Bebida(String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;
-        this.descripcion = descripcion;
     }
 
     @Override
@@ -19,10 +17,5 @@ public class Bebida implements MenuItem {
     @Override
     public double getPrecio() {
         return precio;
-    }
-
-    @Override
-    public String getDescripcion() {
-        return descripcion;
     }
 }
